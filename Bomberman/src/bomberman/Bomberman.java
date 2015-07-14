@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -17,7 +18,10 @@ import javafx.stage.Stage;
  * @author Jirka
  */
 public class Bomberman extends Application {
+    private final Drawing drw = new Drawing();
+    private final Map map = new Map();
     
+    @Override
     public void start(Stage primaryStage) {
         
         StackPane root = new StackPane();
@@ -29,6 +33,35 @@ public class Bomberman extends Application {
         canvas.widthProperty().bind(scene.widthProperty());
         canvas.heightProperty().bind(scene.heightProperty());
         
+        
+        map.newGame();
+        drw.drawAll(gc, canvas.getWidth(), canvas.getHeight());
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent e) -> {
+            switch (e.getCode()) {
+                case W:
+                    map.newGame();
+                    drw.drawAll(gc, canvas.getWidth(), canvas.getHeight());
+                    break;
+                case S:
+                    break;
+                case A:
+                    break;
+                case D:
+                    break;
+                    
+                case SPACE:
+                    break;
+                    
+                case F5:
+                    map.newGame();
+                    drw.drawAll(gc, canvas.getWidth(), canvas.getHeight());
+                    break;
+                default:
+                    break;
+            }
+        });
+        
+        root.getChildren().add(canvas);
         primaryStage.setTitle("Bomberman");
         primaryStage.setScene(scene);
         primaryStage.show();
