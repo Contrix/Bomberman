@@ -18,5 +18,6 @@ public class SquareWall extends Square{
         
         coordinates = p;
         color = this.c;
+        entry = false;
     }
 }

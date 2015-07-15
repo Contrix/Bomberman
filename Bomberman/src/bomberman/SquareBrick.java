@@ -18,5 +18,6 @@ public class SquareBrick extends Square{
         
         coordinates = p;
         color = this.c;
+        entry = false;
     }
 }

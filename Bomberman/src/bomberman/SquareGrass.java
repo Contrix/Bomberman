@@ -18,5 +18,6 @@ public class SquareGrass extends Square{
         
         coordinates = p;
         color = this.c;
+        entry = true;
     }
 }

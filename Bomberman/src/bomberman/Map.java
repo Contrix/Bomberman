@@ -14,21 +14,24 @@ import java.util.Random;
  */
 public class Map {
     Random random = new Random();
-    private MyPoint position = new MyPoint(14,14);
-    private int range = 12;
+    private static MyPoint position = new MyPoint(50,50);
+    private int range = 10;
     private static ArrayList<Square> squares = new ArrayList<>();
     private static ArrayList<Square> world = new ArrayList<>();
+    private  ArrayList<Square> outRange = new ArrayList<>();
+    private Square neighbour;
     
     
     public void newGame(){
+        position = new MyPoint(50,50);
         squares.clear();
         squares.add(new SquareGrass(new MyPoint(position.getX(), position.getY())));
         for (int i = 1; i <= range; i++){
             for (int j = 0; j <= i*2; j++){
-                newSquare(new MyPoint(position.getX() - i + j, position.getY() - i));
-                newSquare(new MyPoint(position.getX() + i, position.getY() -i + j));
-                newSquare(new MyPoint(position.getX() + i - j, position.getY() + i));
-                newSquare(new MyPoint(position.getX() - i, position.getY() + i - j));
+                squares.add(newSquare(new MyPoint(position.getX() - i + j, position.getY() - i)));
+                squares.add(newSquare(new MyPoint(position.getX() + i, position.getY() -i + j)));
+                squares.add(newSquare(new MyPoint(position.getX() + i - j, position.getY() + i)));
+                squares.add(newSquare(new MyPoint(position.getX() - i, position.getY() + i - j)));
             }
             /*for (int j = 0; j <= i*2; j++){
                 newSquare(new MyPoint(position.getX() + i, position.getY() -i + j));
@@ -40,10 +43,30 @@ public class Map {
                 newSquare(new MyPoint(position.getX() - i, position.getY() + i - j));
             }*/
         }
+        checkNeighbours(squares);
         world = squares;
     }
     
-    private void newSquare(MyPoint p){
+    private void checkNeighbours(ArrayList<Square> sq){
+        for(Square s: sq){
+            for(Square p: squares){
+                if(p.getCoordinates().getY() - 1 == s.getCoordinates().getY()){
+                    s.setLeftNeighbour(p);
+                }
+                else if(p.getCoordinates().getY() + 1 == s.getCoordinates().getY()){
+                    s.setRightNeighbour(p);
+                }
+                else if(p.getCoordinates().getX() - 1 == s.getCoordinates().getX()){
+                    s.setUpperNeighbour(p);
+                }
+                else if(p.getCoordinates().getX() + 1 == s.getCoordinates().getX()){
+                    s.setLowerNeighbour(p);
+                }
+            }
+        }
+    }
+    
+    private Square newSquare(MyPoint p){
         switch(random.nextInt(10)){
             case 0:
             case 1:
@@ -51,20 +74,17 @@ public class Map {
             case 3:
             case 4:
             case 5:
-                squares.add(new SquareGrass(p));
-                break;
+                return(new SquareGrass(p));
             case 6:
             case 7:
-                squares.add(new SquareBrick(p));
-                break;
+                return(new SquareBrick(p));
             case 8:
             case 9:
-                squares.add(new SquareWall(p));
-                break;
+                return(new SquareWall(p));
             default:
                 break;
         }
-        //squares.add(new SquareBrick(p));
+        return(null);
     }
     
     public ArrayList<Square> getMap(){
@@ -74,25 +94,70 @@ public class Map {
     public void moveLeft()
     {
         for (Square s : squares){
-            if (s.getCoordinates().getX()>position.getX()+range){
-                //squares.
+            if (position.getX() - s.getCoordinates().getX() > range){
+                outRange.add(s);
             }
+            //else if (s.getCoordinates().getX() - position.getX() == range-1){
+                //System.out.println("ddddd");
+                /*if(s.getLeftNeighbour()!= null){
+                    squares.add(s.getLeftNeighbour());
+                }*/
+                //System.out.println(s.getRightNeighbour() + " - " + s.getCoordinates().getX() + " - " + s.getCoordinates().getY());
+                /*else{
+                    neighbour = newSquare(position);
+                    s.setLeftNeighbour(neighbour);
+                    neighbour.setRightNeighbour(s);
+                    world.add(neighbour);
+                    squares.add(neighbour);
+                }*/
+            //}
         }
+        squares.removeAll(outRange);
+        outRange.clear();
     }
     
     public void moveRight()
     {
-        
+        for (Square s : squares){
+            if (s.getCoordinates().getX() - position.getX() > range){
+                outRange.add(s);
+            }
+        }
+        squares.removeAll(outRange);
+        outRange.clear();
     }
     
     public void moveUp()
     {
-        
+        {
+        for (Square s : squares){
+            if (position.getY() - s.getCoordinates().getY()> range){
+                outRange.add(s);
+            }
+        }
+        squares.removeAll(outRange);
+        outRange.clear();
+    }
     }
     
     public void moveDown()
     {
-        
+        {
+        for (Square s : squares){
+            if (s.getCoordinates().getY() - position.getY() > range){
+                outRange.add(s);
+            }
+        }
+        squares.removeAll(outRange);
+        outRange.clear();
+    }
+    }
+    
+    public MyPoint getPosition(){
+        return (position);
+    }
+    public void setPosition(MyPoint p){
+        position = p;
     }
     
 }

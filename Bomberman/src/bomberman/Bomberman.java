@@ -20,12 +20,13 @@ import javafx.stage.Stage;
 public class Bomberman extends Application {
     private final Drawing drw = new Drawing();
     private final Map map = new Map();
+    private final Player p = new Player();
     
     @Override
     public void start(Stage primaryStage) {
         
         StackPane root = new StackPane();
-        Scene scene = new Scene(root, 700, 700);
+        Scene scene = new Scene(root, 725, 725);
         
         Canvas canvas = new Canvas(scene.getWidth(), scene.getHeight());
         final GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -39,14 +40,21 @@ public class Bomberman extends Application {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent e) -> {
             switch (e.getCode()) {
                 case W:
-                    map.newGame();
+                    p.moveUp();
                     drw.drawAll(gc, canvas.getWidth(), canvas.getHeight());
                     break;
                 case S:
+                    p.moveDown();
+                    drw.drawAll(gc, canvas.getWidth(), canvas.getHeight());
                     break;
                 case A:
+                    p.moveLeft();
+                    //System.out.println(map.getPosition().getX() + " - " + map.getPosition().getY());
+                    drw.drawAll(gc, canvas.getWidth(), canvas.getHeight());
                     break;
                 case D:
+                    p.moveRight();
+                    drw.drawAll(gc, canvas.getWidth(), canvas.getHeight());
                     break;
                     
                 case SPACE:
@@ -55,6 +63,10 @@ public class Bomberman extends Application {
                 case F5:
                     map.newGame();
                     drw.drawAll(gc, canvas.getWidth(), canvas.getHeight());
+                    break;
+                    
+                case ESCAPE:
+                    primaryStage.close();
                     break;
                 default:
                     break;

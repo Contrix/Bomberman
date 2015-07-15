@@ -14,10 +14,11 @@ import javafx.scene.paint.Color;
 public class Square {
     protected Color color;
     protected MyPoint coordinates;
-    protected Square upperNeighbour;
-    protected Square lowerNeighbour;
-    protected Square leftNeighbour;
-    protected Square rightNeighbour;
+    protected Square upperNeighbour = null;
+    protected Square lowerNeighbour = null;
+    protected Square leftNeighbour = null;
+    protected Square rightNeighbour = null;
+    protected boolean entry;
     
     public void Square(MyPoint p){
     }
@@ -45,20 +46,23 @@ public class Square {
         this.rightNeighbour = s;
     }
     
-    public Square getUpperNeighbour(Square s){
+    public Square getUpperNeighbour(){
         return(upperNeighbour);
     }
     
-    public Square getLowerNeighbour(Square s){
+    public Square getLowerNeighbour(){
         return(lowerNeighbour);
     }
     
-    public Square getLeftNeighbour(Square s){
+    public Square getLeftNeighbour(){
         return(leftNeighbour);
     }
     
-    public Square getRightNeighbour(Square s){
+    public Square getRightNeighbour(){
         return(rightNeighbour);
     }
     
+    public boolean entry(){
+        return entry;
+    }    
 }
