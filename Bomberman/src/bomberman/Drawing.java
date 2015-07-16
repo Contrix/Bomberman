@@ -30,11 +30,9 @@ public class Drawing {
     private void drawMap(GraphicsContext gc){
         for(Square s : map.getMap()){
             gc.setFill(Color.BLACK);
-            //gc.fillRect(s.getCoordinates().getX()*pixel, s.getCoordinates().getY()*pixel , pixel, pixel);
             gc.fillRect((s.getCoordinates().getX()+14-map.getPosition().getX())*pixel, (s.getCoordinates().getY()+14-map.getPosition().getY())*pixel , pixel, pixel);
             gc.setFill(s.getColor());
             gc.fillRect((s.getCoordinates().getX()+14-map.getPosition().getX())*pixel, (s.getCoordinates().getY()+14-map.getPosition().getY())*pixel , pixel-1, pixel-1);
-            //gc.fillRect(s.getCoordinates().getX()*pixel, s.getCoordinates().getY()*pixel, pixel-1, pixel-1);
             
             
             /*try {
