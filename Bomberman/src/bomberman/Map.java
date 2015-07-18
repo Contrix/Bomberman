@@ -15,7 +15,8 @@ import java.util.Random;
 public class Map {
     Random random = new Random();
     private static MyPoint position;
-    private int range = 10;
+    private final int range = 10;
+    private final int sizeOfMap = 100;
     private static ArrayList<Square> squares = new ArrayList<>();
     private static ArrayList<Square> world = new ArrayList<>();
     private static ArrayList<Square> incomplete = new ArrayList<>();
@@ -49,11 +50,11 @@ public class Map {
         //}
         for (int i = 0; i <= range*2; i++){
             for (int j = 0; j <= range*2; j++){
-                if(position.getX() == i  && position.getY() == j){
+                if(i - range ==  0  && j - range == 0){
                     squares.add(new SquareGrass(new MyPoint(position.getX(), position.getY())));
                 }
                 else{
-                    squares.add(newSquare(new MyPoint(position.getX() + i-range, position.getY()+ j-range)));
+                    squares.add(newRandomSquare(new MyPoint(position.getX() + i - range, position.getY() + j - range)));
                 }
             }
         }
@@ -93,7 +94,7 @@ public class Map {
         remove.clear();
     }
     
-    private Square newSquare(MyPoint p){
+    private Square newRandomSquare(MyPoint p){
         switch(random.nextInt(10)){
             case 0:
             case 1:
@@ -109,7 +110,7 @@ public class Map {
                 break;
             case 8:
             case 9:
-                tmp = new SquareWall(p);
+                tmp = new SquarStone(p);
                 break;
             default:
                 break;
@@ -119,8 +120,33 @@ public class Map {
         return(tmp);
     }
     
+    private Square newSquareGrass (MyPoint p){
+        tmp = new SquareGrass(p);
+        incomplete.add(tmp);
+        world.add(tmp);
+        return(tmp);
+    }
+    
+    private Square newSquareBrick (MyPoint p){
+        tmp = new SquareBrick(p);
+        incomplete.add(tmp);
+        world.add(tmp);
+        return(tmp);
+    }
+    
+    private Square newSquareWall (MyPoint p){
+        tmp = new SquareWall(p);
+        incomplete.add(tmp);
+        world.add(tmp);
+        return(tmp);
+    }
+    
     public ArrayList<Square> getMap(){
         return (squares);
+    }
+    
+    public ArrayList<Square> getWorld(){
+        return (world);
     }
     
     public void moveLeft(){
@@ -133,7 +159,18 @@ public class Map {
                     newSquares.add(s.getRightNeighbour());
                 }
                 else{
-                    newSquares.add(newSquare(new MyPoint(s.getCoordinates().getX()+1, s.getCoordinates().getY())));
+                    if(position.getX() + range == sizeOfMap){
+                        newSquares.add(newSquareWall(new MyPoint(s.getCoordinates().getX() + 1, s.getCoordinates().getY())));
+                    }
+                    else if(s.getID() == 4 && s.getCoordinates().getX() < sizeOfMap){
+                        newSquares.add(newSquareWall(new MyPoint(s.getCoordinates().getX() + 1, s.getCoordinates().getY())));
+                    }
+                    else if(position.getX() + range > sizeOfMap){
+                        
+                    }
+                    else{
+                        newSquares.add(newRandomSquare(new MyPoint(s.getCoordinates().getX() + 1, s.getCoordinates().getY())));
+                    }
                 }
             }
         }
@@ -154,7 +191,18 @@ public class Map {
                     newSquares.add(s.getLeftNeighbour());
                 }
                 else{
-                    newSquares.add(newSquare(new MyPoint(s.getCoordinates().getX() - 1, s.getCoordinates().getY())));
+                    if(position.getX() - range == 0){
+                        newSquares.add(newSquareWall(new MyPoint(s.getCoordinates().getX()-1, s.getCoordinates().getY())));
+                    }
+                    else if(s.getID() == 4 && s.getCoordinates().getX() > 0){
+                        newSquares.add(newSquareWall(new MyPoint(s.getCoordinates().getX() - 1, s.getCoordinates().getY())));
+                    }
+                    else if(position.getX() - range < 0){
+                        
+                    }
+                    else{
+                        newSquares.add(newRandomSquare(new MyPoint(s.getCoordinates().getX() - 1, s.getCoordinates().getY())));
+                    }
                 }
             }
         }
@@ -175,7 +223,18 @@ public class Map {
                     newSquares.add(s.getLowerNeighbour());
                 }
                 else{
-                    newSquares.add(newSquare(new MyPoint(s.getCoordinates().getX(), s.getCoordinates().getY()+1)));
+                    if(position.getY() + range == sizeOfMap){
+                        newSquares.add(newSquareWall(new MyPoint(s.getCoordinates().getX(), s.getCoordinates().getY() + 1)));
+                    }
+                    else if(s.getID() == 4 && s.getCoordinates().getY() < sizeOfMap){
+                        newSquares.add(newSquareWall(new MyPoint(s.getCoordinates().getX(), s.getCoordinates().getY() + 1)));
+                    }
+                    else if(position.getY() + range > sizeOfMap){
+                        
+                    }
+                    else{
+                        newSquares.add(newRandomSquare(new MyPoint(s.getCoordinates().getX(), s.getCoordinates().getY() + 1)));
+                    }
                 }
             }
         }
@@ -196,7 +255,18 @@ public class Map {
                     newSquares.add(s.getUpperNeighbour());
                 }
                 else{
-                    newSquares.add(newSquare(new MyPoint(s.getCoordinates().getX(), s.getCoordinates().getY() - 1)));
+                    if(position.getY() - range == 0){
+                        newSquares.add(newSquareWall(new MyPoint(s.getCoordinates().getX(), s.getCoordinates().getY() - 1)));
+                    }
+                    else if(s.getID() == 4 && s.getCoordinates().getY() > 0){
+                        newSquares.add(newSquareWall(new MyPoint(s.getCoordinates().getX(), s.getCoordinates().getY() - 1)));
+                    }
+                    else if(position.getY() - range < 0){
+                        
+                    }
+                    else{
+                        newSquares.add(newRandomSquare(new MyPoint(s.getCoordinates().getX(), s.getCoordinates().getY() - 1)));
+                    }
                 }
             }
         }
@@ -212,5 +282,40 @@ public class Map {
     }
     public void setPosition(MyPoint p){
         position = p;
+    }
+    
+    public void setSquareToGrass(Square s){
+        tmp = newSquareGrass(s.getCoordinates());
+        setNewNeighbours(s, tmp);
+        remove.add(s);
+        newSquares.add(tmp);
+    }
+    
+    public void setSquareToBrick(Square s){
+        tmp = newSquareBrick(s.getCoordinates());
+        setNewNeighbours(s, tmp);
+        remove.add(s);
+        newSquares.add(tmp);
+    }
+    
+    private void setNewNeighbours(Square s, Square t){
+        t.setLeftNeighbour(s.getLeftNeighbour());
+        t.setRightNeighbour(s.getRightNeighbour());
+        t.setUpperNeighbour(s.getUpperNeighbour());
+        t.setLowerNeighbour(s.getLowerNeighbour());
+        
+        s.getLeftNeighbour().setRightNeighbour(t);
+        s.getRightNeighbour().setLeftNeighbour(t);
+        s.getUpperNeighbour().setLowerNeighbour(t);
+        s.getLowerNeighbour().setUpperNeighbour(t);
+    }
+    
+    public void refresh(){
+        world.removeAll(remove);
+        world.addAll(newSquares);
+        squares.removeAll(remove);
+        squares.addAll(newSquares);
+        remove.clear();
+        newSquares.clear();
     }
 }

@@ -30,13 +30,12 @@ public class Bomberman extends Application {
         
         Canvas canvas = new Canvas(scene.getWidth(), scene.getHeight());
         final GraphicsContext gc = canvas.getGraphicsContext2D();
-        
         canvas.widthProperty().bind(scene.widthProperty());
         canvas.heightProperty().bind(scene.heightProperty());
         
-        
         map.newGame();
         drw.drawAll(gc, canvas.getWidth(), canvas.getHeight());
+        
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent e) -> {
             switch (e.getCode()) {
                 case W:
@@ -58,6 +57,8 @@ public class Bomberman extends Application {
                     break;
                     
                 case SPACE:
+                    p.putBomb();
+                    drw.drawAll(gc, canvas.getWidth(), canvas.getHeight());
                     break;
                     
                 case F5:
@@ -85,5 +86,4 @@ public class Bomberman extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
 }

@@ -18,7 +18,7 @@ public class Square {
     protected Square lowerNeighbour = null;
     protected Square leftNeighbour = null;
     protected Square rightNeighbour = null;
-    protected boolean entry;
+    protected int id;
     
     public void Square(MyPoint p){
     }
@@ -62,7 +62,7 @@ public class Square {
         return(rightNeighbour);
     }
     
-    public boolean entry(){
-        return entry;
+    public int getID(){
+        return id;
     }    
 }

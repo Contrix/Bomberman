@@ -12,12 +12,11 @@ import javafx.scene.paint.Color;
  * @author Jirka
  */
 public class SquareWall extends Square{
-    private Color c = Color.GREY;
+    private Color c = Color.BLACK;
     
     public SquareWall(MyPoint p){
-        
         coordinates = p;
         color = this.c;
-        entry = false;
+        id = 4;
     }
 }

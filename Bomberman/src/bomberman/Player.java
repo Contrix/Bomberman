@@ -11,6 +11,7 @@ package bomberman;
  */
 public class Player {
     private final Map map = new Map();
+    private int rangeOfBomb;
     
     public void moveLeft(){
         if(entry(0)){
@@ -42,7 +43,7 @@ public class Player {
     
     private boolean entry (int i){
         for (Square s : map.getMap()){
-            if(s.entry()){
+            if(s.getID() == 1){
                 switch (i){
                     case 0:
                         if(s.getCoordinates().getX() == map.getPosition().getX() - 1 && s.getCoordinates().getY() == map.getPosition().getY()){
@@ -72,7 +73,26 @@ public class Player {
         return false;
     }
     
-    public void bomb(){
-        
+    public void putBomb(){
+        rangeOfBomb = 1;
+        map.getMap().stream().forEach((s) -> {
+            if (s.getID() == 2){
+                if(Math.abs(s.getCoordinates().getX() - map.getPosition().getX())  <= rangeOfBomb && s.getCoordinates().getY() == map.getPosition().getY()){
+                    map.setSquareToGrass(s);
+                }
+                else if(Math.abs(s.getCoordinates().getY() - map.getPosition().getY())  <= rangeOfBomb && s.getCoordinates().getX() == map.getPosition().getX()){
+                    map.setSquareToGrass(s);
+                }
+            }
+            else if(s.getID() == 3){
+                if(Math.abs(s.getCoordinates().getX() - map.getPosition().getX())  <= rangeOfBomb && s.getCoordinates().getY() == map.getPosition().getY()){
+                    map.setSquareToBrick(s);
+                }
+                else if(Math.abs(s.getCoordinates().getY() - map.getPosition().getY())  <= rangeOfBomb && s.getCoordinates().getX() == map.getPosition().getX()){
+                   map.setSquareToBrick(s);
+                }
+            }
+        });
+        map.refresh();
     }
 }

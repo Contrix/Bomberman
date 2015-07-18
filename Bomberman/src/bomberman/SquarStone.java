@@ -11,12 +11,12 @@ import javafx.scene.paint.Color;
  *
  * @author Jirka
  */
-public class SquareGrass extends Square{
-    private Color c = Color.LIGHTGREEN;
+public class SquarStone extends Square{
+    private Color c = Color.GREY;
     
-    public SquareGrass(MyPoint p){
+    public SquarStone(MyPoint p){
         coordinates = p;
         color = this.c;
-        id = 1;
+        id = 3;
     }
 }

@@ -15,9 +15,8 @@ public class SquareBrick extends Square{
     private Color c = Color.BISQUE;
     
     public SquareBrick(MyPoint p){
-        
         coordinates = p;
         color = this.c;
-        entry = false;
+        id = 2;
     }
 }
